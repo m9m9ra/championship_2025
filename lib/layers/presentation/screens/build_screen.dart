@@ -15,12 +15,11 @@ class _BuildScreenState extends State<BuildScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: null,
-      body: SafeArea(
-          child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: widget.child,
-      )),
+      body: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: widget.child,
+            ),
     );
   }
 }
