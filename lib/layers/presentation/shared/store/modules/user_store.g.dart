@@ -24,6 +24,15 @@ mixin _$UserStore on _UserStore, Store {
     });
   }
 
+  late final _$signInWithEmailAsyncAction =
+      AsyncAction('_UserStore.signInWithEmail', context: context);
+
+  @override
+  Future<void> signInWithEmail(String email, String password) {
+    return _$signInWithEmailAsyncAction
+        .run(() => super.signInWithEmail(email, password));
+  }
+
   late final _$_UserStoreActionController =
       ActionController(name: '_UserStore', context: context);
 

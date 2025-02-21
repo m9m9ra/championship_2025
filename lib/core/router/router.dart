@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:matule/layers/presentation/screens/build_screen.dart';
 import 'package:matule/layers/presentation/screens/home_screen.dart';
 import 'package:matule/layers/presentation/screens/signin_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class RouterConfigGo {
   final _rootNavigationKey = GlobalKey<NavigatorState>();
@@ -10,6 +11,12 @@ class RouterConfigGo {
   GoRouter get router => GoRouter(
     initialLocation: "/signin",
     redirect: (context, state) {
+      final supabase = Supabase.instance.client;
+      // supabase.auth.signOut();
+      print(supabase.auth.currentUser);
+      if (supabase.auth.currentUser != null) {
+        return "/";
+      }
       return null;
     },
     navigatorKey: _rootNavigationKey,

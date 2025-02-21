@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:matule/layers/presentation/shared/store/root_store.dart';
+import 'package:matule/main.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SigninScreen extends StatefulWidget {
   SigninScreen({super.key});
@@ -12,9 +14,38 @@ class SigninScreen extends StatefulWidget {
 }
 
 class _SigninScreenState extends State<SigninScreen> {
-  void userAuth() {
-    widget._rootStore.userStore.incr();
-    context.go('/');
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  bool _isLoading = false;
+
+  Future<void> _signIn() async {
+    final supabase = Supabase.instance.client;
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      await supabase.auth.signInWithPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim());
+      if (mounted) {
+        context.showSnackBar('Check your email for a login link!');
+        _emailController.clear();
+        _passwordController.clear();
+        context.go('/');
+      }
+    } on AuthException catch (error) {
+      if (mounted) context.showSnackBar(error.message, isError: true);
+    } catch (error) {
+      if (mounted) {
+        context.showSnackBar('Unexpected error occurred', isError: true);
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -52,17 +83,19 @@ class _SigninScreenState extends State<SigninScreen> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const Text('Email'),
-                      const TextField(
+                      TextField(
                         obscureText: false,
-                        decoration: InputDecoration(
+                        controller: _emailController,
+                        decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'xyz@gmail.com'),
                       ),
                       const SizedBox(height: 26),
                       const Text('Пароль'),
-                      const TextField(
+                      TextField(
                         obscureText: true,
-                        decoration: InputDecoration(
+                        controller: _passwordController,
+                        decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: '••••••••'),
                       ),
@@ -80,7 +113,7 @@ class _SigninScreenState extends State<SigninScreen> {
                           color: CupertinoColors.systemTeal,
                           borderRadius:
                               const BorderRadius.all(Radius.circular(14)),
-                          onPressed: () => userAuth(),
+                          onPressed: () => _signIn(),
                           child: const Text('Войти'))
                     ],
                   ),
@@ -90,7 +123,7 @@ class _SigninScreenState extends State<SigninScreen> {
                     children: [
                       Text('Вы впервые?'),
                       Text('Создать пользователя'),
-                      ],
+                    ],
                   )
                 ],
               ),
