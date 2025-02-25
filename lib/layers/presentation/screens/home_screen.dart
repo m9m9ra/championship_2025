@@ -19,14 +19,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(),
       backgroundColor: Color.fromARGB(1, 247, 247, 249),
       appBar: CupertinoNavigationBar(
-        leading: IconButton(onPressed: () => {}, icon: Icon(Icons.menu)),
+        leading:
+            IconButton(onPressed: () => {}, icon: Icon(Icons.segment_rounded)),
         middle: Text('Home'),
         backgroundColor: Color.fromARGB(1, 247, 247, 249),
-        trailing: IconButton(
-            onPressed: () => {}, icon: Icon(Icons.shopping_bag_outlined)),
+        trailing: IconButton.filled(
+            style: ButtonStyle(
+                backgroundColor: WidgetStatePropertyAll(Colors.white)),
+            onPressed: () => {},
+            icon: Icon(
+              Icons.shopping_bag_outlined,
+              color: Colors.black,
+            )),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -72,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   IconButton.filled(
                       iconSize: 36,
                       onPressed: () => {},
-                      icon: Icon(Icons.segment_outlined))
+                      icon: Icon(CupertinoIcons.slider_horizontal_3))
                 ],
               ),
             ),
@@ -145,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 12),
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
@@ -162,15 +168,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         )
                       ],
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 12),
                     const Row(
-                      children: [
-                        ProductCard(),
-                        Spacer(),
-                        ProductCard()
-                      ],
+                      children: [ProductCard(), Spacer(), ProductCard()],
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 12),
                     Row(
                       children: [
                         const Text('Action'),
@@ -183,33 +185,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         )
                       ],
                     ),
-                    Image.asset('assets/action.png')
+                    Image.asset('assets/action.png'),
+                    SizedBox(height: 24.0),
                   ],
                 )),
-            // Container(
-            //   height: 500,
-            //   color: Colors.amber,
-            //   width: double.maxFinite,
-            //   child: FutureBuilder(
-            //     future: _future,
-            //     builder: (context, snapshot) {
-            //       if (!snapshot.hasData) {
-            //         return const Center(child: CircularProgressIndicator());
-            //       }
-            //       final instruments = snapshot.data!;
-            //       print(snapshot);
-            //       return ListView.builder(
-            //         itemCount: instruments.length,
-            //         itemBuilder: ((context, index) {
-            //           final instrument = instruments[index];
-            //           return ListTile(
-            //             title: Text(instrument['name']),
-            //           );
-            //         }),
-            //       );
-            //     },
-            //   ),
-            // ),
           ],
         ),
       ),

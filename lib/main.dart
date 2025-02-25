@@ -1,3 +1,4 @@
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         platform: TargetPlatform.iOS,
+        textTheme: GoogleFonts.ralewayTextTheme(),
         colorScheme: const ColorScheme.light(
           primary: CupertinoColors.systemTeal,
           background: Color.fromARGB(1, 247, 247, 249),
